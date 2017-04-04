@@ -5,6 +5,10 @@ import UIKit
     @objc optional func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String:AnyObject])
 }
 
+@objc protocol FiltersViewDelegate {
+    @objc func onFiltersDone(controller: FiltersViewController)
+}
+
 class FiltersViewController: UIViewController {
     
     //category, sort (best match, distance, highest rated), distance, deals (on/off).
@@ -17,21 +21,28 @@ class FiltersViewController: UIViewController {
 //    ("Categories", categoryNames)]
 
     @IBOutlet weak var tableView: UITableView!
-    weak var delegate: FiltersViewControllerDelegate?
     
-    var categories : [[String:String]]!
+    var delegate: FiltersViewDelegate?
+
+    //weak var delegate: FiltersViewControllerDelegate?
+    
+    var model: SearchFilters?
+    
+   /* var categories : [[String:String]]!
     var switchStates = [Int:Bool]()
-    var filtersBySection = [(String, [String])]()
+    var filtersBySection = [(String, [String])]()*/
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let categories = self.yelpCategories()
+        self.model = SearchFilters(instance: SearchFilters.instance)
+        
+       /* let categories = self.yelpCategories()
         let categoryNames = categories.map { $0["name"]! }
         filtersBySection = [("Most Popular", ["Offering a Deal"]),
-                                ("Distance", ["Best Match", "2 blocks", "6 blocks", "1 mile", "5 miles"]),
-                                ("Sort by", ["Best Match", "Distance", "Raiting", "Most Reviewed"]),
-                                ("Categories", categoryNames)]
+                                ("Distance", ["Best Match", "0.3 miles", "1 mile", "5 miles", "20 miles"]),
+                                ("Sort by", ["Best Match", "Distance", "Rating", "Most Reviewed"]),
+                                ("Categories", categoryNames)]*/
         
         tableView.reloadData()
 
@@ -48,8 +59,12 @@ class FiltersViewController: UIViewController {
     }
 
     @IBAction func Search(_ sender: Any) {
+        SearchFilters.instance.copyStateFrom(instance: self.model!)
+
         dismiss(animated: true, completion: nil)
-        var filters = [String: AnyObject]()
+        self.delegate?.onFiltersDone(controller: self)
+
+        /*var filters = [String: AnyObject]()
         
         var selectedCategories = [String]()
         for (row,isSelected) in switchStates {
@@ -63,7 +78,7 @@ class FiltersViewController: UIViewController {
         
         print(filters)
         
-        delegate?.filtersViewController?(filtersViewController: self, didUpdateFilters: filters)
+        delegate?.filtersViewController?(filtersViewController: self, didUpdateFilters: filters)*/
     }
     
     func yelpCategories() -> [[String:String]] {
@@ -243,32 +258,148 @@ class FiltersViewController: UIViewController {
 extension FiltersViewController: UITableViewDelegate, UITableViewDataSource, SwitchCellDelegate {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return filtersBySection[section].0
+        let filter = self.model?.filters[section]
+        let label = filter?.label
+        
+        if filter?.type == .Multiple && (filter?.numItemsVisible!)! > 0 && (filter?.numItemsVisible!)! < (filter?.options.count)! && !(filter?.opened)! {
+            let selectedOptions = filter?.selectedOptions
+            return "\(label) (\(selectedOptions?.count) selected)"
+        }
+        
+        return label
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filtersBySection[section].1.count
+        let filter = (self.model?.filters[section])! as Filter
+        if !filter.opened {
+            if filter.type == FilterType.Single {
+                return 1
+            } else if filter.numItemsVisible! > 0 && filter.numItemsVisible! < filter.options.count {
+                return filter.numItemsVisible! + 1
+            }
+        }
+        return filter.options.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell") as! SwitchCell
-        //cell.switchLabel.text = categories[indexPath.row]["name"]
-        cell.switchLabel.text = self.filtersBySection[indexPath.section].1[indexPath.row]
-
-        cell.delegate = self
         
-        cell.onSwitch.isOn = switchStates[indexPath.row] ?? false
+        //let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "SwitchCell") as! 
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell") as! SwitchCell
+        cell.delegate = self
+
+        
+        let filter = (self.model?.filters[indexPath.section])! as Filter
+        switch filter.type {
+        case .Single:
+            if filter.opened {
+                let option = filter.options[indexPath.row]
+                cell.switchLabel?.text = option.label
+                if option.selected {
+                    cell.onSwitch.isOn = true } else { cell.onSwitch.isOn = false
+                    /*
+                    cell.accessoryView = UIImageView(image: UIImage(named: "Check"))
+                } else {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "Uncheck"))*/
+                }
+            } else {
+                cell.switchLabel?.text = filter.options[filter.selectedIndex].label
+                //cell.accessoryView = UIImageView(image: UIImage(named: "Dropdown"))
+            }
+        case .Multiple:
+            if filter.opened || indexPath.row < filter.numItemsVisible! {
+                let option = filter.options[indexPath.row]
+                cell.switchLabel?.text = option.label
+                if option.selected {
+                    cell.onSwitch.isOn = true } else { cell.onSwitch.isOn = false
+                    /*
+                    cell.accessoryView = UIImageView(image: UIImage(named: "Check"))
+                } else {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "Uncheck"))*/
+                }
+            } else {
+                cell.switchLabel?.text = "See All"
+                cell.onSwitch.isHidden = true
+                //cell.textLabel?.textAlignment = NSTextAlignment.center
+                //cell.textLabel?.textColor = .darkGray
+            }
+        default:
+            let option = filter.options[indexPath.row]
+            cell.switchLabel?.text = option.label
+            /*cell.selectionStyle = UITableViewCellSelectionStyle.none
+            let switchView = UISwitch(frame: CGRect.zero)
+            switchView.isOn = option.selected
+            switchView.onTintColor = UIColor(red: 73.0/255.0, green: 134.0/255.0, blue: 231.0/255.0, alpha: 1.0)
+            switchView.addTarget(self, action: "handleSwitchValueChanged:", for: UIControlEvents.valueChanged)
+            cell.accessoryView = switchView*/
+        }
         
         return cell
+        
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell") as! SwitchCell
+//        //cell.switchLabel.text = categories[indexPath.row]["name"]
+//        cell.switchLabel.text = self.filtersBySection[indexPath.section].1[indexPath.row]
+//
+//        cell.delegate = self
+//        
+//        cell.onSwitch.isOn = switchStates[indexPath.row] ?? false
+//        
+//        return cell
     }
     
-    func switchCell(switchCell: SwitchCell, didChangeValue value: Bool) {
+    func handleSwitchValueChanged(switchView: UISwitch) -> Void {
+        let cell = switchView.superview as! UITableViewCell
+        if let indexPath = self.tableView.indexPath(for: cell) {
+            let filter = (self.model?.filters[indexPath.section])! as Filter
+            let option = filter.options[indexPath.row]
+            option.selected = switchView.isOn
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let filter = self.model!.filters[indexPath.section]
+        switch filter.type {
+        case .Single:
+            if (filter.opened) {
+                let previousIndex = filter.selectedIndex
+                if previousIndex != indexPath.row {
+                    filter.selectedIndex = indexPath.row
+                    let previousIndexPath = NSIndexPath(row: previousIndex, section: indexPath.section)
+                    self.tableView.reloadRows(at: [indexPath, previousIndexPath as IndexPath], with: .automatic)
+                }
+            }
+            
+            let opened = filter.opened;
+            filter.opened = !opened;
+            
+            if opened {
+//                let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC)))
+//                dispatch_after(time, dispatch_get_main_queue(), {
+                self.tableView.reloadSections(NSMutableIndexSet(index: indexPath.section) as IndexSet, with: .automatic)
+                //})
+            } else {
+                self.tableView.reloadSections(NSMutableIndexSet(index: indexPath.section) as IndexSet, with: .automatic)
+            }
+        case .Multiple:
+            if !(filter.opened) && indexPath.row == filter.numItemsVisible {
+                filter.opened = true
+                self.tableView.reloadSections(NSMutableIndexSet(index: indexPath.section) as IndexSet, with: .automatic)
+            } else {
+                let option = filter.options[indexPath.row]
+                option.selected = !(option.selected)
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
+        default:
+            break
+        }
+    }
+    
+    /*func switchCell(switchCell: SwitchCell, didChangeValue value: Bool) {
         let indexPath = tableView.indexPath(for: switchCell)!
         
         switchStates[indexPath.row] = value
-    }
+    }*/
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return filtersBySection.count
+        return self.model!.filters.count
     }
 }

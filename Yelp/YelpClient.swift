@@ -60,7 +60,8 @@ class YelpClient: BDBOAuth1RequestOperationManager {
         }
         
         print(parameters)
-        
+        //["term": Thai, "deals_filter": 1, "ll": 37.785771,-122.406165, "category_filter": newamerican,pizza]
+
         return self.get("search", parameters: parameters,
                         success: { (operation: AFHTTPRequestOperation, response: Any) -> Void in
                             if let response = response as? [String: Any]{

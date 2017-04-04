@@ -51,7 +51,7 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
         let navigationController = segue.destination as! UINavigationController
         let filtersViewController = navigationController.topViewController as! FiltersViewController
         
-        filtersViewController.delegate = self
+        //filtersViewController.delegate = self
     }
     
     func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject]) {
