@@ -1,10 +1,4 @@
-//
-//  BusinessCell.swift
-//  Yelp
-//
-//  Created by Brandon Aubrey on 4/2/17.
-//  Copyright © 2017 Timothy Lee. All rights reserved.
-//
+
 
 import UIKit
 

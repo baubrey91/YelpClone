@@ -1,14 +1,6 @@
-//
-//  BusinessesViewController.swift
-//  Yelp
-//
-//  Created by Timothy Lee on 4/23/15.
-//  Copyright (c) 2015 Timothy Lee. All rights reserved.
-//
-
 import UIKit
 
-class BusinessesViewController: UIViewController {
+class BusinessesViewController: UIViewController, FiltersViewControllerDelegate {
     
     var searchBar: UISearchBar!
     var businesses: [Business]!
@@ -40,7 +32,7 @@ class BusinessesViewController: UIViewController {
                 }
             }
             
-            }
+        }
         )
         
         /* Example of Yelp search with more search options specified
@@ -53,7 +45,25 @@ class BusinessesViewController: UIViewController {
          }
          }
          */
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let navigationController = segue.destination as! UINavigationController
+        let filtersViewController = navigationController.topViewController as! FiltersViewController
         
+        filtersViewController.delegate = self
+    }
+    
+    func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject]) {
+        let categories = filters["categories"] as? [String]
+        Business.searchWithTerm(term: "Restaurants",
+                                sort: nil,
+                                categories: categories,
+                                deals: nil) {
+                                    (businesses: [Business]?, error: Error?) -> Void in
+                                    self.businesses = businesses
+                                    self.tableView.reloadData()
+        }
     }
     
     override func didReceiveMemoryWarning() {
