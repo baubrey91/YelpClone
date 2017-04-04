@@ -59,7 +59,7 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
         Business.searchWithTerm(term: "Restaurants",
                                 sort: nil,
                                 categories: categories,
-                                deals: nil) {
+                                deals: true) {
                                     (businesses: [Business]?, error: Error?) -> Void in
                                     self.businesses = businesses
                                     self.tableView.reloadData()

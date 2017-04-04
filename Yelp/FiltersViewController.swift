@@ -7,10 +7,14 @@ import UIKit
 
 class FiltersViewController: UIViewController {
     
-    
-    let section = ["", "Distance", "Sort By", "Category"]
-    
-    let items = [["Offering a Deal"], ["0.03 Miles", "1 Miles", "5 Miles", "20 Miles"], ["sausage", "chicken pesto", "prawns", "mushrooms"], ]
+    //category, sort (best match, distance, highest rated), distance, deals (on/off).
+
+    let categories = ["String": "String"]
+    let categoryNames = categories.map { $0["name"]! }
+    var filtersBySection = [("Most Popular", ["Offering a Deal"]),
+    ("Distance", ["Best Match", "2 blocks", "6 blocks", "1 mile", "5 miles"]),
+    ("Sort by", ["Best Match", "Distance", "Raiting", "Most Reviewed"]),
+    ("Categories", categoryNames)]
 
     @IBOutlet weak var tableView: UITableView!
     weak var delegate: FiltersViewControllerDelegate?
@@ -20,8 +24,15 @@ class FiltersViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let categories = self.yelpCategories()
+        let categoryNames = categories.map { $0["name"]! }
+        var filtersBySection = [("Most Popular", ["Offering a Deal"]),
+                                ("Distance", ["Best Match", "2 blocks", "6 blocks", "1 mile", "5 miles"]),
+                                ("Sort by", ["Best Match", "Distance", "Raiting", "Most Reviewed"]),
+                                ("Categories", categoryNames)]
 
-        categories = yelpCategories()
+        //categories = yelpCategories()
     }
 
     override func didReceiveMemoryWarning() {
@@ -46,6 +57,8 @@ class FiltersViewController: UIViewController {
         if selectedCategories.count > 0 {
             filters["categories"] = selectedCategories as AnyObject?
         }
+        
+        print(filters)
         
         delegate?.filtersViewController?(filtersViewController: self, didUpdateFilters: filters)
     }
@@ -226,22 +239,22 @@ class FiltersViewController: UIViewController {
 
 extension FiltersViewController: UITableViewDelegate, UITableViewDataSource, SwitchCellDelegate {
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.section[section]
-    }
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return self.section[section]
+//    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items[section].count
-        //return categories.count
+        //return items[section].count
+        return categories.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell") as! SwitchCell
-        //cell.switchLabel.text = categories[indexPath.row]["name"]
-        //cell.delegate = self
+        cell.switchLabel.text = categories[indexPath.row]["name"]
+        cell.delegate = self
         
-        //cell.onSwitch.isOn = switchStates[indexPath.row] ?? false
-        cell.switchLabel.text = self.items[indexPath.section][indexPath.row]
+        cell.onSwitch.isOn = switchStates[indexPath.row] ?? false
+        //cell.switchLabel.text = self.items[indexPath.section][indexPath.row]
         
         return cell
     }
@@ -252,7 +265,7 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource, Swi
         switchStates[indexPath.row] = value
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return section.count
-    }
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        return section.count
+//    }
 }
