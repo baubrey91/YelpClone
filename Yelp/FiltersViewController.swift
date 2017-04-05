@@ -2,20 +2,20 @@
 import UIKit
 
 @objc protocol FiltersViewControllerDelegate {
-    @objc optional func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String:AnyObject])
+    @objc optional func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String:AnyObject], dealsBool: Bool)
 }
 
-@objc protocol FiltersViewDelegate {
-    @objc func onFiltersDone(controller: FiltersViewController)
-}
 
 class FiltersViewController: UIViewController {
     
     let sectionTitlesArray = ["", "Distance", "Sort By", "Category"]
     let featuredArray = ["Offering a Deal"]
     let distanceArray = ["Auto", "0.3 Miles", "1 Miles", "5 Miles", "20 Miles"]
-    let sortBy = ["Best Match","Distance","Rating","Most Reviewed"]
+    let sortByArray = ["Best Match","Distance","Rating","Most Reviewed"]
+    var currentSort = "Best Match"
+    var currentDistance = "Auto"
     
+    var categories : [[String:String]]!
     var switchStates = [IndexPath:Bool]()
     var categoriesArray = [[String:String]]()
     var distanceExpanded = false
@@ -24,14 +24,14 @@ class FiltersViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    var delegate: FiltersViewDelegate?
+    var delegate: FiltersViewControllerDelegate?
     
     var model: SearchFilters?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.model = SearchFilters(instance: SearchFilters.instance)
+        
         
         categoriesArray = YelpFilters.yelpCategories()
         /*let categoryNames = categories.map { $0["name"]! }
@@ -42,7 +42,6 @@ class FiltersViewController: UIViewController {
         
         tableView.reloadData()
 
-        //categories = yelpCategories()
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,26 +54,28 @@ class FiltersViewController: UIViewController {
     }
 
     @IBAction func Search(_ sender: Any) {
-        SearchFilters.instance.copyStateFrom(instance: self.model!)
 
         dismiss(animated: true, completion: nil)
-        self.delegate?.onFiltersDone(controller: self)
 
-        /*var filters = [String: AnyObject]()
-        
+        var filters = [String: AnyObject]()
         var selectedCategories = [String]()
-        for (row,isSelected) in switchStates {
+        var dealBool = false
+        
+        for (indexPath,isSelected) in switchStates {
             if isSelected {
-                selectedCategories.append(categories[row]["code"]!)
+                if indexPath.section == 0 {
+                    dealBool = true
+                }
+                if indexPath.section == 3 {
+                selectedCategories.append(categoriesArray[indexPath.row]["code"]!)
+                }
             }
         }
         if selectedCategories.count > 0 {
             filters["categories"] = selectedCategories as AnyObject?
         }
         
-        print(filters)
-        
-        delegate?.filtersViewController?(filtersViewController: self, didUpdateFilters: filters)*/
+        delegate?.filtersViewController?(filtersViewController: self, didUpdateFilters: filters, dealsBool: dealBool)
     }
     
 }
@@ -94,7 +95,7 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource, Swi
         case 1:
             return distanceExpanded ? distanceArray.count : 1
         case 2:
-            return sortByExpanded ? sortBy.count : 1
+            return sortByExpanded ? sortByArray.count : 1
         default:
             return categoryExapanded ? categoriesArray.count : 4
         }
@@ -109,21 +110,39 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource, Swi
         case 0:
             cell.switchLabel.text = featuredArray[indexPath.row]
             cell.onSwitch.isOn = switchStates[indexPath] ?? false
+            cell.onSwitch.isHidden = false
         case 1:
-            cell.switchLabel.text = distanceArray[indexPath.row]
-            cell.onSwitch.isHidden = true
+            if (!distanceExpanded) {
+                
+                cell.switchLabel.text = currentDistance
+                cell.onSwitch.isHidden = true
+            } else {
+                
+                cell.switchLabel.text = distanceArray[indexPath.row]
+                cell.onSwitch.isHidden = true
 
+            }
         case 2:
-            cell.switchLabel.text = sortBy[indexPath.row]
-            cell.onSwitch.isHidden = true
+            if (!sortByExpanded) {
+                
+                cell.switchLabel.text = currentSort
+                cell.onSwitch.isHidden = true
+            } else {
+                cell.switchLabel.text = sortByArray[indexPath.row]
+                cell.onSwitch.isHidden = true
 
+            }
         case 3:
             if (!categoryExapanded && indexPath.row == 3) {
+                
                 cell.switchLabel.text = "More"
-                //cell.onSwitch.isHidden = true
+                cell.onSwitch.isHidden = true
             } else {
+                
                 cell.switchLabel.text = categoriesArray[indexPath.row]["name"]
                 cell.onSwitch.isOn = switchStates[indexPath] ?? false
+                cell.onSwitch.isHidden = false
+
             }
         default :
             return cell
@@ -137,15 +156,20 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource, Swi
         case 0:
             return
         case 1:
-           // if (distanceExpanded) {
-                distanceExpanded = !distanceExpanded
-                tableView.reloadData()
-            //}
+            if (distanceExpanded) {
+                
+                currentDistance = distanceArray[indexPath.row]
+            }
+            distanceExpanded = !distanceExpanded
+            tableView.reloadData()
+
         case 2:
-          //  if (sortByExpanded) {
-                sortByExpanded = !sortByExpanded
-                tableView.reloadData()
-           // }
+            if (sortByExpanded) {
+                currentSort = sortByArray[indexPath.row]
+            }
+            sortByExpanded = !sortByExpanded
+            tableView.reloadData()
+
         default:
             if ((indexPath.row == 3 && !categoryExapanded) || indexPath.row == categoriesArray.count - 1) {
                 categoryExapanded = !categoryExapanded

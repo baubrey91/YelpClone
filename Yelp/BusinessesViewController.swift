@@ -5,6 +5,7 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
     var searchBar: UISearchBar!
     var businesses: [Business]!
     
+    
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -51,15 +52,16 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
         let navigationController = segue.destination as! UINavigationController
         let filtersViewController = navigationController.topViewController as! FiltersViewController
         
-        //filtersViewController.delegate = self
+        filtersViewController.delegate = self
     }
     
-    func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject]) {
+    func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject], dealsBool: Bool) {
+        print(dealsBool)
         let categories = filters["categories"] as? [String]
         Business.searchWithTerm(term: "Restaurants",
                                 sort: nil,
                                 categories: categories,
-                                deals: true) {
+                                deals: dealsBool) {
                                     (businesses: [Business]?, error: Error?) -> Void in
                                     self.businesses = businesses
                                     self.tableView.reloadData()
