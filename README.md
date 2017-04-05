@@ -8,7 +8,7 @@ Completed user stories:
 
 Search results page
 
- * [x] Required: Table rows should be dynamic height according to the content height.
+ * [x] Required: Table rows should be dynamic height according to the content height. // fix filters at bottom
  * [x] Required: Custom cells should have the proper Auto Layout constraints.
  * [x] Required: Search bar should be in the navigation bar (doesn't have to expand to show location like the real Yelp app does).
  * [ ] Optional: Infinite scroll for restaurant results
