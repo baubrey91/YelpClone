@@ -19,8 +19,8 @@ Filter page
  * [x] Required: The filters table should be organized into sections as in the mock.
  * [x] Required: Clicking on the "Search" button should dismiss the filters page and trigger the search w/ the new filter settings.
  * [ ] Optional: implement a custom switch
- * [ ] Optional: Distance filter should expand as in the real Yelp app. 
- * [ ] Optional: Categories should show a subset of the full list with a "See All" row to expand.
+ * [x] Optional: Distance filter should expand as in the real Yelp app. 
+ * [x] Optional: Categories should show a subset of the full list with a "See All" row to expand.
  * [ ] Optional: Implement the restaurant detail page.
   
 Personal:
