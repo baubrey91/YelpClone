@@ -26,7 +26,7 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BusinessCell" rowHeight="157" id="dq5-Hu-Qe7" customClass="BusinessCell" customModule="Yelp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="BusinessCell" rowHeight="157" id="dq5-Hu-Qe7" customClass="BusinessCell" customModule="Yelp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="157"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dq5-Hu-Qe7" id="7Bf-Ln-zrd">
@@ -48,7 +48,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="1. Grand Pu Bah" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wpX-VT-sMx">
-                                                    <rect key="frame" x="81" y="8" width="170" height="18"/>
+                                                    <rect key="frame" x="81" y="8" width="137" height="18"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -60,25 +60,25 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="0.07 mi" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bba-U2-xE1">
-                                                    <rect key="frame" x="259" y="18" width="45" height="16"/>
+                                                    <rect key="frame" x="226" y="18" width="45" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$$" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qgw-Fu-lKl">
-                                                    <rect key="frame" x="290" y="42" width="17" height="16"/>
+                                                    <rect key="frame" x="257" y="42" width="17" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thai, Seafood, Salad" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oFk-KL-iwy">
-                                                    <rect key="frame" x="81" y="68.5" width="226" height="16"/>
+                                                    <rect key="frame" x="81" y="68.5" width="193" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="88 Division St, Mission Bay" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LyC-t6-vLo">
-                                                    <rect key="frame" x="81" y="50.5" width="223" height="16"/>
+                                                    <rect key="frame" x="81" y="50.5" width="190" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -116,6 +116,7 @@
                                             <outlet property="ratingsImageView" destination="EAM-8Z-Tym" id="DL7-KE-ldg"/>
                                             <outlet property="reviewsCountLabel" destination="dsR-uV-702" id="OFX-0k-Lly"/>
                                             <outlet property="thumbImageView" destination="NPi-Fd-orn" id="N6y-Ch-5vx"/>
+                                            <segue destination="uRX-eF-nYo" kind="push" identifier="detailSegue" id="nOR-9w-Hmn"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -136,7 +137,12 @@
                     <navigationItem key="navigationItem" id="G8c-6i-wsF">
                         <barButtonItem key="leftBarButtonItem" title="Filters" id="AiH-Tl-46Q">
                             <connections>
-                                <segue destination="IM2-45-LMT" kind="presentation" id="vDK-At-6JU"/>
+                                <segue destination="IM2-45-LMT" kind="presentation" identifier="filterSegue" id="vDK-At-6JU"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Map" id="WAu-O5-Ju3">
+                            <connections>
+                                <segue destination="LxD-gL-4yU" kind="push" identifier="mapSegue" id="jk7-ie-hqa"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -147,6 +153,83 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fgb-4b-F1b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2726.25" y="357.04225352112678"/>
+        </scene>
+        <!--Map Collection View Controller-->
+        <scene sceneID="ebb-2r-fFc">
+            <objects>
+                <viewController id="LxD-gL-4yU" customClass="MapCollectionViewController" customModule="Yelp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jqI-35-QNI"/>
+                        <viewControllerLayoutGuide type="bottom" id="mgn-wG-72c"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="QtS-SZ-hyC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mef-Z4-tIQ">
+                                <rect key="frame" x="0.0" y="163" width="320" height="405"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <segue destination="LUy-mN-OJn" kind="embed" id="rP7-gC-1m9"/>
+                                </connections>
+                            </containerView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="lCJ-6A-7z1">
+                                <rect key="frame" x="0.0" y="64" width="320" height="91"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="p58-q1-gR7">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="GY7-cM-NQi">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="aOT-Em-DRg"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0DF-pm-5Zs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3900" y="285.21126760563379"/>
+        </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="jgu-C9-dp1">
+            <objects>
+                <viewController id="uRX-eF-nYo" customClass="DetailViewController" customModule="Yelp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2f4-dF-U6S"/>
+                        <viewControllerLayoutGuide type="bottom" id="gGH-az-iHD"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ckx-Tv-gQn">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Td-qm-fEL">
+                                <rect key="frame" x="0.0" y="308" width="320" height="260"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <segue destination="LUy-mN-OJn" kind="embed" id="5ba-hq-lYR"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="M8f-R1-HLB"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="a6a-pJ-0oI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3900" y="940.14084507042253"/>
         </scene>
         <!--Filters-->
         <scene sceneID="8yu-Ht-r5e">
@@ -262,7 +345,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="beU-QO-aUU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4865.625" y="357.04225352112678"/>
+            <point key="canvasLocation" x="4763" y="-402"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="M2c-Ns-fbg">
@@ -298,7 +381,30 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oin-HU-Wxe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3866.25" y="355.98591549295776"/>
+            <point key="canvasLocation" x="3900" y="-402"/>
+        </scene>
+        <!--Map View Controller-->
+        <scene sceneID="bZW-Xz-9vS">
+            <objects>
+                <viewController id="LUy-mN-OJn" customClass="MapViewController" customModule="Yelp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="pXm-ka-PE7">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="260"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="mV1-U7-62D">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="260"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="map" destination="mV1-U7-62D" id="xKl-XX-UnA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sWa-KG-566" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4884" y="595"/>
         </scene>
     </scenes>
     <resources>
