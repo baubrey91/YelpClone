@@ -17,13 +17,11 @@ class SwitchCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        yelpSwitch.addTarget(self, action: "switchValueChanged", for: UIControlEvents.valueChanged)
-        yelpSwitch.frame = CGRect(x: self.frame.width - 60 , y: self.frame.height/2 - 12.5, width: 50, height: 25)
+
         yelpSwitch.thumbImage = #imageLiteral(resourceName: "Yelp")
-        self.addSubview(yelpSwitch)
-        
-        //onSwitch.addTarget(self, action: "switchValueChanged", for: UIControlEvents.valueChanged)
+        yelpSwitch.addTarget(self, action: #selector(SwitchCell.switchValueChanged), for: UIControlEvents.valueChanged)
+        yelpSwitch.onTintColor = UIColor.blue
+        self.accessoryView = yelpSwitch
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -34,6 +32,6 @@ class SwitchCell: UITableViewCell {
     
     func switchValueChanged() {
         print("switchValuechanged")
-        delegate?.switchCell?(switchCell: self, didChangeValue: onSwitch.isOn)
+        delegate?.switchCell?(switchCell: self, didChangeValue: yelpSwitch.on)
     }
 }

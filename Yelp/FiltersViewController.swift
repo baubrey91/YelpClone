@@ -1,5 +1,6 @@
 
 import UIKit
+import SevenSwitch
 
 @objc protocol FiltersViewControllerDelegate {
     @objc optional func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String:AnyObject])
@@ -126,8 +127,8 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource, Swi
             cell.delegate = self
 
             cell.switchLabel.text = featuredArray[indexPath.row]
-            cell.onSwitch.isOn = switchStates[indexPath] ?? false
-            cell.onSwitch.isHidden = false
+            cell.yelpSwitch.on = switchStates[indexPath] ?? false
+            cell.yelpSwitch.isHidden = false
             
             return cell
         case 1:
@@ -173,16 +174,19 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource, Swi
 
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell") as! SwitchCell
+            
             cell.delegate = self
             if (!categoryExapanded && indexPath.row == 3) {
                 
                 cell.switchLabel.text = "More"
-                cell.onSwitch.isHidden = true
+                cell.yelpSwitch.isHidden = true
             } else {
                 
                 cell.switchLabel.text = categoriesArray[indexPath.row]["name"]
-                cell.onSwitch.isOn = switchStates[indexPath] ?? false
-                cell.onSwitch.isHidden = false
+                print(switchStates)
+                cell.yelpSwitch.on = switchStates[indexPath] ?? false
+                //cell.yelpSwitch.thumbImage = #imageLiteral(resourceName: "Yelp")
+                cell.yelpSwitch.isHidden = false
 
             }
             return cell
@@ -224,7 +228,7 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource, Swi
     func switchCell(switchCell: SwitchCell, didChangeValue value: Bool) {
         
         let indexPath = tableView.indexPath(for: switchCell)!
-        switchStates[indexPath] = true
+        switchStates[indexPath] = value
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
