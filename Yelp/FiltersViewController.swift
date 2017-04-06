@@ -20,12 +20,13 @@ class FiltersViewController: UIViewController {
 //    let distanceArray = ["Auto", "0.3 Miles" , "1 Miles" , "5 Miles", "20 Miles"]
     var distanceArray = [[String:String]]()
 
-    let sortByArray = ["Best Match","Distance","Rating","Most Reviewed"]
+    let sortByArray = ["Best Match" , "Distance", "Highest Rating"]
+    let sortByValue: [YelpSortMode] = [.bestMatched, .distance, .highestRated]
     
-    var currentSort = "Best Match"
+    //var currentSort = "Best Match"
     var currentDistance = "Auto"
     var currentDistanceValue = -1
-    var currentSort :YelpSortMode =
+    var currentSort : YelpSortMode = .bestMatched
 
     
     var categories : [[String:String]]!
@@ -38,9 +39,7 @@ class FiltersViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var delegate: FiltersViewControllerDelegate?
-    
-    var model: SearchFilters?
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -156,12 +155,12 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource, Swi
 
             if (!sortByExpanded) {
                 
-                cell.checkLabel.text = currentSort
+                cell.checkLabel.text = sortByArray[currentSort.rawValue]
                 cell.checkImage.image = #imageLiteral(resourceName: "ExpandArrow")
             } else {
                 
                 cell.checkLabel.text = sortByArray[indexPath.row]
-                if currentSort == sortByArray[indexPath.row] {
+                if currentSort.rawValue == indexPath.row {
                     
                     cell.checkImage.image = #imageLiteral(resourceName: "Checked")
                 } else {
@@ -207,8 +206,10 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource, Swi
 
         case 2:
             if (sortByExpanded) {
-                currentSort = sortByArray[indexPath.row]
+ 
+                currentSort = sortByValue[indexPath.row]
             }
+        
             sortByExpanded = !sortByExpanded
             tableView.reloadSections(IndexSet([indexPath.section]), with: .automatic)
 

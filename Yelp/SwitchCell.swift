@@ -1,5 +1,6 @@
 
 import UIKit
+import SevenSwitch
 
 @objc protocol SwitchCellDelegate {
     @objc optional func switchCell(switchCell: SwitchCell, didChangeValue value: Bool)
@@ -10,12 +11,19 @@ class SwitchCell: UITableViewCell {
     @IBOutlet weak var switchLabel: UILabel!
     @IBOutlet weak var onSwitch: UISwitch!
     
+    var yelpSwitch = SevenSwitch()
+
     weak var delegate: SwitchCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        onSwitch.addTarget(self, action: "switchValueChanged", for: UIControlEvents.valueChanged)
+        yelpSwitch.addTarget(self, action: "switchValueChanged", for: UIControlEvents.valueChanged)
+        yelpSwitch.frame = CGRect(x: self.frame.width - 60 , y: self.frame.height/2 - 12.5, width: 50, height: 25)
+        yelpSwitch.thumbImage = #imageLiteral(resourceName: "Yelp")
+        self.addSubview(yelpSwitch)
+        
+        //onSwitch.addTarget(self, action: "switchValueChanged", for: UIControlEvents.valueChanged)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
