@@ -25,8 +25,7 @@ class FiltersViewController: UIViewController {
     var currentSort = "Best Match"
     var currentDistance = "Auto"
     var currentDistanceValue = -1
-    var currentSort :YelpSortMode =
-
+    //var currentSort :YelpSortMode =
     
     var categories : [[String:String]]!
     var switchStates = [IndexPath:Bool]()

@@ -49,10 +49,25 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let navigationController = segue.destination as! UINavigationController
-        let filtersViewController = navigationController.topViewController as! FiltersViewController
+        if segue.identifier == "filterSegue"{
         
-        filtersViewController.delegate = self
+            let navigationController = segue.destination as! UINavigationController
+            let filtersViewController = navigationController.topViewController as! FiltersViewController
+            filtersViewController.delegate = self
+        }
+        else if segue.identifier == "mapSegue"{
+            
+            if let vc = segue.destination as? MapCollectionViewController {
+                vc.businesses = businesses
+            }
+        }
+        else if segue.identifier == "detailSegue"{
+            
+            if let vc = segue.destination as? DetailViewController {
+                let indexPath = tableView.indexPath(for: sender as! BusinessCell)!
+                vc.business = businesses[indexPath.row]
+            }
+        }
     }
     
     func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject]) {
