@@ -2,18 +2,31 @@
 import UIKit
 
 @objc protocol FiltersViewControllerDelegate {
-    @objc optional func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String:AnyObject], dealsBool: Bool)
+    @objc optional func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String:AnyObject])
 }
 
+//enum FilterType : String {
+//    
+//    case Deal
+//    case Distance
+//    case Sortby
+//    case Category
+//}
 
 class FiltersViewController: UIViewController {
     
     let sectionTitlesArray = ["", "Distance", "Sort By", "Category"]
     let featuredArray = ["Offering a Deal"]
-    let distanceArray = ["Auto", "0.3 Miles", "1 Miles", "5 Miles", "20 Miles"]
+//    let distanceArray = ["Auto", "0.3 Miles" , "1 Miles" , "5 Miles", "20 Miles"]
+    var distanceArray = [[String:String]]()
+
     let sortByArray = ["Best Match","Distance","Rating","Most Reviewed"]
+    
     var currentSort = "Best Match"
     var currentDistance = "Auto"
+    var currentDistanceValue = -1
+    var currentSort :YelpSortMode =
+
     
     var categories : [[String:String]]!
     var switchStates = [IndexPath:Bool]()
@@ -31,9 +44,8 @@ class FiltersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
         categoriesArray = YelpFilters.yelpCategories()
+        distanceArray = YelpFilters.yelpDistance()
         /*let categoryNames = categories.map { $0["name"]! }
         filtersBySection = [("Most Popular", ["Offering a Deal"]),
                                 ("Distance", ["Best Match", "0.3 miles", "1 mile", "5 miles", "20 miles"]),
@@ -75,7 +87,12 @@ class FiltersViewController: UIViewController {
             filters["categories"] = selectedCategories as AnyObject?
         }
         
-        delegate?.filtersViewController?(filtersViewController: self, didUpdateFilters: filters, dealsBool: dealBool)
+        filters["radiusFilter"] = currentDistanceValue as AnyObject?
+        print(currentDistanceValue)
+        filters["deals"] = dealBool as AnyObject?
+        filters["sort"] = currentSort as AnyObject?
+        
+        delegate?.filtersViewController?(filtersViewController: self, didUpdateFilters: filters)
     }
     
 }
@@ -103,36 +120,61 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource, Swi
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell") as! SwitchCell
-        cell.delegate = self
         
         switch indexPath.section {
         case 0:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell") as! SwitchCell
+            cell.delegate = self
+
             cell.switchLabel.text = featuredArray[indexPath.row]
             cell.onSwitch.isOn = switchStates[indexPath] ?? false
             cell.onSwitch.isHidden = false
+            
+            return cell
         case 1:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "CheckBoxCell") as! CheckBoxCell
+            //cell.delegate = self
             if (!distanceExpanded) {
                 
-                cell.switchLabel.text = currentDistance
-                cell.onSwitch.isHidden = true
+                cell.checkLabel.text = currentDistance
+                cell.checkImage.image = #imageLiteral(resourceName: "ExpandArrow")
             } else {
                 
-                cell.switchLabel.text = distanceArray[indexPath.row]
-                cell.onSwitch.isHidden = true
-
+                cell.checkLabel.text = distanceArray[indexPath.row]["distance"]
+                if currentDistance == distanceArray[indexPath.row]["distance"] {
+                    
+                    cell.checkImage.image = #imageLiteral(resourceName: "Checked")
+                } else {
+                    
+                    cell.checkImage.image = #imageLiteral(resourceName: "NotChecked")
+                }
             }
+            
+            return cell
         case 2:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "CheckBoxCell") as! CheckBoxCell
+
             if (!sortByExpanded) {
                 
-                cell.switchLabel.text = currentSort
-                cell.onSwitch.isHidden = true
+                cell.checkLabel.text = currentSort
+                cell.checkImage.image = #imageLiteral(resourceName: "ExpandArrow")
             } else {
-                cell.switchLabel.text = sortByArray[indexPath.row]
-                cell.onSwitch.isHidden = true
-
+                
+                cell.checkLabel.text = sortByArray[indexPath.row]
+                if currentSort == sortByArray[indexPath.row] {
+                    
+                    cell.checkImage.image = #imageLiteral(resourceName: "Checked")
+                } else {
+                    
+                    cell.checkImage.image = #imageLiteral(resourceName: "NotChecked")
+                }
             }
-        case 3:
+            
+            return cell
+
+        default:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell") as! SwitchCell
+            cell.delegate = self
             if (!categoryExapanded && indexPath.row == 3) {
                 
                 cell.switchLabel.text = "More"
@@ -144,13 +186,12 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource, Swi
                 cell.onSwitch.isHidden = false
 
             }
-        default :
             return cell
         }
-        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         
         switch indexPath.section {
         case 0:
@@ -158,62 +199,26 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource, Swi
         case 1:
             if (distanceExpanded) {
                 
-                currentDistance = distanceArray[indexPath.row]
+                currentDistance = distanceArray[indexPath.row]["distance"]!
+                currentDistanceValue = Int(distanceArray[indexPath.row]["meters"]!)!
             }
             distanceExpanded = !distanceExpanded
-            tableView.reloadData()
+            tableView.reloadSections(IndexSet([indexPath.section]), with: .automatic)
 
         case 2:
             if (sortByExpanded) {
                 currentSort = sortByArray[indexPath.row]
             }
             sortByExpanded = !sortByExpanded
-            tableView.reloadData()
+            tableView.reloadSections(IndexSet([indexPath.section]), with: .automatic)
 
         default:
             if ((indexPath.row == 3 && !categoryExapanded) || indexPath.row == categoriesArray.count - 1) {
                 categoryExapanded = !categoryExapanded
-                tableView.reloadData()
+                tableView.reloadSections(IndexSet([indexPath.section]), with: .automatic)
             }
         }
     }
-    
-      /*  let filter = self.model!.filters[indexPath.section]
-        switch filter.type {
-        case .Single:
-            if (filter.opened) {
-                let previousIndex = filter.selectedIndex
-                if previousIndex != indexPath.row {
-                    filter.selectedIndex = indexPath.row
-                    let previousIndexPath = NSIndexPath(row: previousIndex, section: indexPath.section)
-                    self.tableView.reloadRows(at: [indexPath, previousIndexPath as IndexPath], with: .automatic)
-                }
-            }
-            
-            let opened = filter.opened;
-            filter.opened = !opened;
-            
-            if opened {
-//                let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC)))
-//                dispatch_after(time, dispatch_get_main_queue(), {
-                self.tableView.reloadSections(NSMutableIndexSet(index: indexPath.section) as IndexSet, with: .automatic)
-                //})
-            } else {
-                self.tableView.reloadSections(NSMutableIndexSet(index: indexPath.section) as IndexSet, with: .automatic)
-            }
-        case .Multiple:
-            if !(filter.opened) && indexPath.row == filter.numItemsVisible {
-                filter.opened = true
-                self.tableView.reloadSections(NSMutableIndexSet(index: indexPath.section) as IndexSet, with: .automatic)
-            } else {
-                let option = filter.options[indexPath.row]
-                option.selected = !(option.selected)
-                self.tableView.reloadRows(at: [indexPath], with: .automatic)
-            }
-        default:
-            break
-        }
-    }*/
     
     func switchCell(switchCell: SwitchCell, didChangeValue value: Bool) {
         

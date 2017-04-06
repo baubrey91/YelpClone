@@ -181,4 +181,14 @@ class YelpFilters {
                   ["name" : "Yugoslav", "code": "yugoslav"],
                   ["name" : "Minimize", "code": "none"]]
     }
+    
+    
+    class func yelpDistance() -> [[String:String]]  {
+        return   [["distance" : "Auto", "meters": "-1"],
+                  ["distance" : "0.3 Miles", "meters": "483"],
+                  ["distance" : "1 Miles", "meters": "1609"],
+                  ["distance" : "5 Miles", "meters": "8047"],
+                  ["distance" : "20 Miles", "meters": "32187"]]
+    }
 }
+

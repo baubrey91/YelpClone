@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="rh4-1s-WCd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="rh4-1s-WCd">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -30,7 +30,7 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="157"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dq5-Hu-Qe7" id="7Bf-Ln-zrd">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="156.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="157"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NPi-Fd-orn">
@@ -168,7 +168,7 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="75"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qOs-Ob-Qct" id="dfZ-Td-Gpe">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="74.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Sn-P7-s4c">
@@ -191,6 +191,41 @@
                                         <connections>
                                             <outlet property="onSwitch" destination="dIl-NK-x5U" id="Uo0-V2-Xm7"/>
                                             <outlet property="switchLabel" destination="6Sn-P7-s4c" id="rl8-BR-2Va"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CheckBoxCell" id="CCB-04-AVt" customClass="CheckBoxCell" customModule="Yelp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="103" width="320" height="65"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CCB-04-AVt" id="QHd-XS-zS3">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ft5-9d-3wd">
+                                                    <rect key="frame" x="268" y="17" width="30" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="30" id="m4u-7u-ehe"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I1p-qt-7nw">
+                                                    <rect key="frame" x="22" y="22" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="ft5-9d-3wd" secondAttribute="trailing" constant="14" id="0fn-ft-TVn"/>
+                                                <constraint firstItem="I1p-qt-7nw" firstAttribute="leading" secondItem="QHd-XS-zS3" secondAttribute="leadingMargin" constant="14" id="8iE-rI-bgF"/>
+                                                <constraint firstAttribute="bottomMargin" relation="lessThanOrEqual" secondItem="ft5-9d-3wd" secondAttribute="bottom" constant="9" id="HD1-tn-b1K"/>
+                                                <constraint firstItem="I1p-qt-7nw" firstAttribute="centerY" secondItem="QHd-XS-zS3" secondAttribute="centerY" id="O9L-2e-1H7"/>
+                                                <constraint firstItem="ft5-9d-3wd" firstAttribute="top" secondItem="QHd-XS-zS3" secondAttribute="topMargin" constant="9" id="PPg-Jx-X8f"/>
+                                                <constraint firstItem="ft5-9d-3wd" firstAttribute="top" relation="lessThanOrEqual" secondItem="QHd-XS-zS3" secondAttribute="topMargin" constant="9" id="VMG-D2-8Hj"/>
+                                                <constraint firstItem="ft5-9d-3wd" firstAttribute="centerY" secondItem="QHd-XS-zS3" secondAttribute="centerY" id="fQS-wk-eEn"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="checkImage" destination="ft5-9d-3wd" id="1nR-sa-HGH"/>
+                                            <outlet property="checkLabel" destination="I1p-qt-7nw" id="gEd-gw-9Lh"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

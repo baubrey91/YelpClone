@@ -55,13 +55,14 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
         filtersViewController.delegate = self
     }
     
-    func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject], dealsBool: Bool) {
-        print(dealsBool)
+    func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject]) {
+
         let categories = filters["categories"] as? [String]
         Business.searchWithTerm(term: "Restaurants",
-                                sort: nil,
+                                sort: filters["sort"] as! YelpSortMode?,
                                 categories: categories,
-                                deals: dealsBool) {
+                                deals: filters["deals"] as? Bool,
+                                radiusFilter: filters["radiusFilter"] as? Int) {
                                     (businesses: [Business]?, error: Error?) -> Void in
                                     self.businesses = businesses
                                     self.tableView.reloadData()
