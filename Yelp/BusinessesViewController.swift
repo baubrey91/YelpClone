@@ -33,8 +33,7 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
                 }
             }
             
-        }
-        )
+        })
         
         /* Example of Yelp search with more search options specified
          Business.searchWithTerm("Restaurants", sort: .Distance, categories: ["asianfusion", "burgers"], deals: true) { (businesses: [Business]!, error: NSError!) -> Void in

@@ -19,6 +19,7 @@
 		39BDF26F1E921BBB00C55015 /* BusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BDF26E1E921BBB00C55015 /* BusinessCell.swift */; };
 		39D2FC9D1E92314900E656E9 /* SwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D2FC9C1E92314900E656E9 /* SwitchCell.swift */; };
 		39D2FC9F1E9232A200E656E9 /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D2FC9E1E9232A200E656E9 /* FiltersViewController.swift */; };
+		39DE2A4D1E9746930032823F /* MapCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39DE2A4C1E9746930032823F /* MapCollectionViewCell.swift */; };
 		47848697133B87663A122E3D /* Pods_YelpTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A1000F3975EB43318C1D4FA /* Pods_YelpTests.framework */; };
 		CA9D28721E955C6200AA1FA7 /* CheckBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA9D28711E955C6200AA1FA7 /* CheckBoxCell.swift */; };
 		CACBB52B1E96A33E0083193F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CACBB52A1E96A33E0083193F /* MapKit.framework */; };
@@ -56,6 +57,7 @@
 		39BDF26E1E921BBB00C55015 /* BusinessCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessCell.swift; sourceTree = "<group>"; };
 		39D2FC9C1E92314900E656E9 /* SwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCell.swift; sourceTree = "<group>"; };
 		39D2FC9E1E9232A200E656E9 /* FiltersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
+		39DE2A4C1E9746930032823F /* MapCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCollectionViewCell.swift; sourceTree = "<group>"; };
 		5871D66103F8E8D78915F798 /* Pods-YelpTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YelpTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YelpTests/Pods-YelpTests.debug.xcconfig"; sourceTree = "<group>"; };
 		883322706A784248B16F444A /* Pods-Yelp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yelp.release.xcconfig"; path = "Pods/Target Support Files/Pods-Yelp/Pods-Yelp.release.xcconfig"; sourceTree = "<group>"; };
 		9B128C050DE78660DE2A8E75 /* Pods-YelpTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YelpTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-YelpTests/Pods-YelpTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -175,10 +177,10 @@
 			isa = PBXGroup;
 			children = (
 				22AAAA9B1AEA1EC300A544AF /* BusinessesViewController.swift */,
+				CACBB5321E96C0B10083193F /* DetailViewController.swift */,
 				39D2FC9E1E9232A200E656E9 /* FiltersViewController.swift */,
 				CACBB52C1E96A3560083193F /* MapViewController.swift */,
 				CACBB5301E96B76D0083193F /* MapCollectionViewController.swift */,
-				CACBB5321E96C0B10083193F /* DetailViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -189,6 +191,7 @@
 				39BDF26E1E921BBB00C55015 /* BusinessCell.swift */,
 				39D2FC9C1E92314900E656E9 /* SwitchCell.swift */,
 				CA9D28711E955C6200AA1FA7 /* CheckBoxCell.swift */,
+				39DE2A4C1E9746930032823F /* MapCollectionViewCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -425,6 +428,7 @@
 				39D2FC9F1E9232A200E656E9 /* FiltersViewController.swift in Sources */,
 				22AAAA991AEA0A9700A544AF /* Business.swift in Sources */,
 				CAD556B91E9459570001BB45 /* YelpFilters.swift in Sources */,
+				39DE2A4D1E9746930032823F /* MapCollectionViewCell.swift in Sources */,
 				222D8A7D19CCFAE000D2DB53 /* YelpClient.swift in Sources */,
 				CACBB5311E96B76D0083193F /* MapCollectionViewController.swift in Sources */,
 				222D8A5B19CCF9F900D2DB53 /* AppDelegate.swift in Sources */,
@@ -566,6 +570,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Yelp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.codepath.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -582,6 +587,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Yelp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.codepath.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";

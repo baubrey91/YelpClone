@@ -3,13 +3,15 @@
 //  Yelp
 //
 //  Created by Brandon on 4/6/17.
-//  Copyright © 2017 Timothy Lee. All rights reserved.
+//  Copyright © 2017 Brandon Aubrey. All rights reserved.
 //
 
 import UIKit
 
 class MapCollectionViewController: UIViewController {
 
+    @IBOutlet weak var collectionView: UICollectionView!
+    
     var businesses: [Business]!
     
     override func viewDidLoad() {
@@ -28,16 +30,25 @@ class MapCollectionViewController: UIViewController {
             vc.businesses = businesses
         }
     }
+}
+
+extension MapCollectionViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+        detailViewController.business = businesses[indexPath.row]
+        self.navigationController?.pushViewController(detailViewController, animated: true)    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return businesses.count
     }
-    */
-
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MapCollectionViewCell", for: indexPath) as! MapCollectionViewCell
+        
+        cell.businessLabel.text = businesses[indexPath.row].name
+        cell.businessImage.setImageWith(businesses[indexPath.row].imageURL!)
+        
+        return cell
+    }
+    
 }

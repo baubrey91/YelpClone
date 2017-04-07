@@ -132,7 +132,9 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource, Swi
             
             return cell
         case 1:
+            //let cell = tableView.dequeueReusableCell(withIdentifier: "CheckBoxCell") as! CheckBoxCell
             let cell = tableView.dequeueReusableCell(withIdentifier: "CheckBoxCell") as! CheckBoxCell
+
             //cell.delegate = self
             if (!distanceExpanded) {
                 

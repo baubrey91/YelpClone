@@ -11,6 +11,7 @@ class Business: NSObject {
     let ratingImageURL: URL?
     let reviewCount: NSNumber?
     let coordinate: CLLocationCoordinate2D?
+    let snippetText: String?
     
     init(dictionary: NSDictionary) {
         name = dictionary["name"] as? String
@@ -81,6 +82,13 @@ class Business: NSObject {
         }
         
         reviewCount = dictionary["review_count"] as? NSNumber
+        
+        let review = dictionary["snippet_text"] as? String
+        if review != nil {
+            snippetText = review
+        } else {
+            snippetText = nil
+        }
     }
     
     class func businesses(array: [NSDictionary]) -> [Business] {
