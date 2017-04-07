@@ -6,14 +6,6 @@ import SevenSwitch
     @objc optional func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String:AnyObject])
 }
 
-//enum FilterType : String {
-//    
-//    case Deal
-//    case Distance
-//    case Sortby
-//    case Category
-//}
-
 class FiltersViewController: UIViewController {
     
     let sectionTitlesArray = ["", "Distance", "Sort By", "Category"]
@@ -187,7 +179,6 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource, Swi
                 cell.switchLabel.text = categoriesArray[indexPath.row]["name"]
                 print(switchStates)
                 cell.yelpSwitch.on = switchStates[indexPath] ?? false
-                //cell.yelpSwitch.thumbImage = #imageLiteral(resourceName: "Yelp")
                 cell.yelpSwitch.isHidden = false
 
             }

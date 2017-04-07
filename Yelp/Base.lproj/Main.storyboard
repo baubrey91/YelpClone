@@ -369,14 +369,28 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="esd-XL-7aY" customClass="SevenSwitch" customModule="SevenSwitch">
+                                                    <rect key="frame" x="247" y="24" width="46" height="26"/>
+                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="46" id="Xvs-UG-aOP"/>
+                                                        <constraint firstAttribute="height" constant="26" id="qGm-CN-V4m"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="image" keyPath="thumbImage" value="Yelp"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="6Sn-P7-s4c" firstAttribute="centerY" secondItem="dfZ-Td-Gpe" secondAttribute="centerY" id="P3C-ha-L3B"/>
+                                                <constraint firstItem="esd-XL-7aY" firstAttribute="centerY" secondItem="6Sn-P7-s4c" secondAttribute="centerY" id="TQT-Ux-M9Y"/>
                                                 <constraint firstItem="6Sn-P7-s4c" firstAttribute="leading" secondItem="dfZ-Td-Gpe" secondAttribute="leadingMargin" constant="14" id="dfd-7o-Ckl"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="esd-XL-7aY" secondAttribute="trailing" constant="19" id="rtr-OO-6eu"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="switchLabel" destination="6Sn-P7-s4c" id="rl8-BR-2Va"/>
+                                            <outlet property="yelpSwitch" destination="esd-XL-7aY" id="1z7-93-hbZ"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CheckBoxCell" id="CCB-04-AVt" customClass="CheckBoxCell" customModule="Yelp" customModuleProvider="target">
@@ -523,6 +537,9 @@
             <point key="canvasLocation" x="4884" y="595"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Yelp" width="25" height="25"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="5ba-hq-lYR"/>
     </inferredMetricsTieBreakers>

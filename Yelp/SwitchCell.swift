@@ -9,19 +9,15 @@ import SevenSwitch
 class SwitchCell: UITableViewCell {
 
     @IBOutlet weak var switchLabel: UILabel!
-    @IBOutlet weak var onSwitch: UISwitch!
     
-    var yelpSwitch = SevenSwitch()
+    @IBOutlet var yelpSwitch: SevenSwitch!
 
     weak var delegate: SwitchCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        yelpSwitch.thumbImage = #imageLiteral(resourceName: "Yelp")
-        yelpSwitch.addTarget(self, action: #selector(SwitchCell.switchValueChanged), for: UIControlEvents.valueChanged)
-        yelpSwitch.onTintColor = UIColor.blue
-        self.accessoryView = yelpSwitch
+        yelpSwitch.addTarget(self, action: "switchValueChanged", for: UIControlEvents.valueChanged)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

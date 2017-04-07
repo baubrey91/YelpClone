@@ -19,7 +19,7 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
         button.layer.borderColor = UIColor.darkGray.cgColor
         button.addTarget(self, action: #selector(self.printTest), for: .touchUpInside)
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
+        //self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
         
         
         tableView.rowHeight = UITableViewAutomaticDimension
