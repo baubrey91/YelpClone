@@ -136,6 +136,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="G8c-6i-wsF">
                         <barButtonItem key="leftBarButtonItem" title="Filters" id="AiH-Tl-46Q">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <segue destination="IM2-45-LMT" kind="presentation" identifier="filterSegue" id="vDK-At-6JU"/>
                             </connections>
@@ -464,6 +465,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="cTJ-0K-lMu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.76862745099999996" green="0.0" blue="0.0039215686269999999" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -482,6 +484,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="bxI-Hb-cli">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.76862745099999996" green="0.0" blue="0.0039215686269999999" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>

@@ -10,6 +10,18 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        let button = UIButton.init(type: .custom)
+        button.setTitle("Tester", for: .normal)
+        button.setTitleColor(.darkGray, for: .normal)
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 5
+        button.layer.borderColor = UIColor.darkGray.cgColor
+        button.addTarget(self, action: #selector(self.printTest), for: .touchUpInside)
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
+        
+        
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 120
         
@@ -25,14 +37,21 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
             
             self.businesses = businesses
             self.tableView.reloadData()
-            if let businesses = businesses {
-                for business in businesses {
-                    print(business.name!)
-                    print(business.address!)
-                }
-            }
+//            if let businesses = businesses {
+//                for business in businesses {
+//                    print(business.name!)
+//                    print(business.address!)
+//                }
+//            }
             
         })
+        
+        func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(animated)
+            if let button = self.navigationItem.rightBarButtonItem?.customView {
+                button.frame = CGRect(x:0, y:0, width:80, height:34)
+            }
+        }
         
         /* Example of Yelp search with more search options specified
          Business.searchWithTerm("Restaurants", sort: .Distance, categories: ["asianfusion", "burgers"], deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
@@ -44,6 +63,10 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
          }
          }
          */
+    }
+    
+    func printTest() {
+        print("hello")
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
