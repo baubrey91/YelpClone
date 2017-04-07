@@ -134,9 +134,12 @@ extension BusinessesViewController: UISearchBarDelegate {
         //searchSettings.searchString = searchBar.text
         searchBar.resignFirstResponder()
         Business.searchWithTerm(term: searchBar.text!, completion: { (businesses: [Business]?, error: Error?) -> Void in
-            
-            self.businesses = businesses
-            self.tableView.reloadData()
+            if businesses != nil {
+                self.businesses = businesses
+                self.tableView.reloadData()
+            } else {
+                print("no data")
+            }
         })
     }
 }

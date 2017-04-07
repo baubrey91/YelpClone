@@ -20,7 +20,6 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var detailsView: UIView!
     @IBOutlet weak var reviewView: UIView!
     
-    
     var isFlipped = false
     
     var business: Business!
@@ -32,6 +31,7 @@ class DetailViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        print(business.snippetText)
         reviewLabel.text = business.snippetText
         nameLabel.text = business.name
         ratingImage.setImageWith(business.ratingImageURL!)

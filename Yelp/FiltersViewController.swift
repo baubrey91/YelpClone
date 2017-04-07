@@ -7,6 +7,7 @@ import SevenSwitch
 }
 
 class FiltersViewController: UIViewController {
+
     
     let sectionTitlesArray = ["", "Distance", "Sort By", "Category"]
     let featuredArray = ["Offering a Deal"]
@@ -35,6 +36,7 @@ class FiltersViewController: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         categoriesArray = YelpFilters.yelpCategories()
         distanceArray = YelpFilters.yelpDistance()
@@ -124,7 +126,6 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource, Swi
             
             return cell
         case 1:
-            //let cell = tableView.dequeueReusableCell(withIdentifier: "CheckBoxCell") as! CheckBoxCell
             let cell = tableView.dequeueReusableCell(withIdentifier: "CheckBoxCell") as! CheckBoxCell
 
             //cell.delegate = self
@@ -177,7 +178,6 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource, Swi
             } else {
                 
                 cell.switchLabel.text = categoriesArray[indexPath.row]["name"]
-                print(switchStates)
                 cell.yelpSwitch.on = switchStates[indexPath] ?? false
                 cell.yelpSwitch.isHidden = false
 

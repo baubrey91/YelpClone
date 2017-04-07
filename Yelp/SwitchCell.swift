@@ -9,7 +9,6 @@ import SevenSwitch
 class SwitchCell: UITableViewCell {
 
     @IBOutlet weak var switchLabel: UILabel!
-    
     @IBOutlet var yelpSwitch: SevenSwitch!
 
     weak var delegate: SwitchCellDelegate?
@@ -17,7 +16,7 @@ class SwitchCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        yelpSwitch.addTarget(self, action: "switchValueChanged", for: UIControlEvents.valueChanged)
+        yelpSwitch.addTarget(self, action: #selector(SwitchCell.switchValueChanged), for: UIControlEvents.valueChanged)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
