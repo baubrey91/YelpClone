@@ -3,7 +3,7 @@
 //  Yelp
 //
 //  Created by Brandon on 4/6/17.
-//  Copyright © 2017 Timothy Lee. All rights reserved.
+//  Copyright © 2017 Brandon Aubrey. All rights reserved.
 //
 
 import UIKit

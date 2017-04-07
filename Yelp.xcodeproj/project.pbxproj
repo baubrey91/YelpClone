@@ -27,6 +27,7 @@
 		CACBB5311E96B76D0083193F /* MapCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACBB5301E96B76D0083193F /* MapCollectionViewController.swift */; };
 		CACBB5331E96C0B10083193F /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACBB5321E96C0B10083193F /* DetailViewController.swift */; };
 		CACBB5351E96E4AB0083193F /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACBB5341E96E4AB0083193F /* File.swift */; };
+		CACBB5391E982FA60083193F /* RefreshContents.xib in Resources */ = {isa = PBXBuildFile; fileRef = CACBB5381E982FA60083193F /* RefreshContents.xib */; };
 		CAD556B91E9459570001BB45 /* YelpFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD556B81E9459570001BB45 /* YelpFilters.swift */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +70,7 @@
 		CACBB5301E96B76D0083193F /* MapCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCollectionViewController.swift; sourceTree = "<group>"; };
 		CACBB5321E96C0B10083193F /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		CACBB5341E96E4AB0083193F /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		CACBB5381E982FA60083193F /* RefreshContents.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RefreshContents.xib; sourceTree = "<group>"; };
 		CAD556B81E9459570001BB45 /* YelpFilters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YelpFilters.swift; sourceTree = "<group>"; };
 		EF53DC2D7A8303A68532E7C6 /* Pods-Yelp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yelp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Yelp/Pods-Yelp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -124,6 +126,7 @@
 				222D8A5A19CCF9F900D2DB53 /* AppDelegate.swift */,
 				222D8A5E19CCF9F900D2DB53 /* Main.storyboard */,
 				222D8A6119CCF9F900D2DB53 /* Images.xcassets */,
+				CACBB5381E982FA60083193F /* RefreshContents.xib */,
 				222D8A6319CCF9F900D2DB53 /* LaunchScreen.xib */,
 				222D8A5819CCF9F900D2DB53 /* Supporting Files */,
 				CAD556B81E9459570001BB45 /* YelpFilters.swift */,
@@ -309,6 +312,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				222D8A6019CCF9F900D2DB53 /* Main.storyboard in Resources */,
+				CACBB5391E982FA60083193F /* RefreshContents.xib in Resources */,
 				222D8A6519CCF9F900D2DB53 /* LaunchScreen.xib in Resources */,
 				222D8A6219CCF9F900D2DB53 /* Images.xcassets in Resources */,
 			);
