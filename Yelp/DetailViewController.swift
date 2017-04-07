@@ -30,8 +30,7 @@ class DetailViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        print(business.snippetText)
+    override func viewWillAppear(_ animated: Bool) {
         reviewLabel.text = business.snippetText
         nameLabel.text = business.name
         ratingImage.setImageWith(business.ratingImageURL!)
