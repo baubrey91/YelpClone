@@ -37,15 +37,73 @@ class YelpClient: BDBOAuth1RequestOperationManager {
         self.requestSerializer.saveAccessToken(token)
     }
     
-    func searchWithTerm(_ term: String, completion: @escaping ([Business]?, Error?) -> Void) -> AFHTTPRequestOperation {
-        return searchWithTerm(term, sort: nil, categories: nil, deals: nil, radiusFilter: nil, completion: completion)
-    }
     
-    func searchWithTerm(_ term: String, sort: YelpSortMode?, categories: [String]?, deals: Bool?, radiusFilter: Int?, completion: @escaping ([Business]?, Error?) -> Void) -> AFHTTPRequestOperation {
+    /*func searchWithTerm(_ term: String, completion: @escaping ([Business]?, Error?) -> Void) -> AFHTTPRequestOperation {
+        
+        var parameters: [String : AnyObject] = ["term": term as AnyObject, "ll": "37.785771,-122.406165" as AnyObject]
+        
+        return self.get("search", parameters: parameters,
+                        success: { (operation: AFHTTPRequestOperation, response: Any) -> Void in
+                            if let response = response as? [String: Any]{
+                                let dictionaries = response["businesses"] as? [NSDictionary]
+                                if dictionaries != nil {
+                                    completion(Business.businesses(array: dictionaries!), nil)
+                                }
+                            }
+        },
+                        failure: { (operation: AFHTTPRequestOperation?, error: Error) -> Void in
+                            completion(nil, error)
+        })!
+
+    }*/
+    
+    func searchWithTerm(_ filter: [String:AnyObject], completion: @escaping ([Business]?, Error?) -> Void) -> AFHTTPRequestOperation {
+        
+        var parameters: [String : AnyObject] = ["term": "Thai" as AnyObject, "ll": "37.785771,-122.406165" as AnyObject]
+            
+        //var parameters: [String : AnyObject] = ["term": "Thai" as AnyObject, "ll": "37.785771,-122.406165" as AnyObject, "deals": 0 as AnyObject, "offSet": 0 as AnyObject]
+        
+        //var parameters: [String : AnyObject] = ["deals": 0 as AnyObject, "offSet": 0 as AnyObject, "term": "Thai" as AnyObject, "ll": "37.785771,-122.406165" as AnyObject, "sort": Yelp.YelpSortMode.bestMatched as AnyObject, "radiusFilter": 4000 as AnyObject]
+        //["term": Thai, "deals_filter": 1, "ll": 37.785771,-122.406165, "category_filter": newamerican,pizza]
+        
+        //["ll": "37.785771,-122.406165" as AnyObject]
+
+        for (key, value) in filter {
+            parameters.updateValue(value, forKey: key)
+        }
+        
+        print(parameters)
+        
+        return self.get("search", parameters: parameters,
+                        success: { (operation: AFHTTPRequestOperation, response: Any) -> Void in
+                            if let response = response as? [String: Any]{
+                                print(response)
+                                let dictionaries = response["businesses"] as? [NSDictionary]
+                                if dictionaries != nil {
+                                    completion(Business.businesses(array: dictionaries!), nil)
+                                }
+                            }
+        },
+                        failure: { (operation: AFHTTPRequestOperation?, error: Error) -> Void in
+                            completion(nil, error)
+        })!
+    }
+
+    }
+
+    /*func searchWithTerm(_ term: String, offSet: Int?, sort: YelpSortMode?, categories: [String]?, deals: Bool?, radiusFilter: Int?, completion: @escaping ([Business]?, Error?) -> Void) -> AFHTTPRequestOperation {
         // For additional parameters, see http://www.yelp.com/developers/documentation/v2/search_api
         
         // Default the location to San Francisco
         var parameters: [String : AnyObject] = ["term": term as AnyObject, "ll": "37.785771,-122.406165" as AnyObject]
+        
+//        for (key, value) in additionalParams {
+//            params.updateValue(value, forKey: key)
+//        }
+        
+        if offSet != nil {
+           parameters["offset"] = offSet as AnyObject?
+        }
         
         if sort != nil {
             parameters["sort"] = sort!.rawValue as AnyObject?
@@ -65,7 +123,8 @@ class YelpClient: BDBOAuth1RequestOperationManager {
             }
         }
         
-        print(parameters)
+        parameters["limit"] = 5 as AnyObject
+        
         //["term": Thai, "deals_filter": 1, "ll": 37.785771,-122.406165, "category_filter": newamerican,pizza]
 
         return self.get("search", parameters: parameters,
@@ -80,5 +139,5 @@ class YelpClient: BDBOAuth1RequestOperationManager {
                         failure: { (operation: AFHTTPRequestOperation?, error: Error) -> Void in
                             completion(nil, error)
                         })!
-    }
-}
+    }*/
+

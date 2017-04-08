@@ -8,7 +8,6 @@ import SevenSwitch
 
 class FiltersViewController: UIViewController {
 
-    
     let sectionTitlesArray = ["", "Distance", "Sort By", "Category"]
     let featuredArray = ["Offering a Deal"]
 //    let distanceArray = ["Auto", "0.3 Miles" , "1 Miles" , "5 Miles", "20 Miles"]
@@ -82,7 +81,6 @@ class FiltersViewController: UIViewController {
         }
         
         filters["radiusFilter"] = currentDistanceValue as AnyObject?
-        print(currentDistanceValue)
         filters["deals"] = dealBool as AnyObject?
         filters["sort"] = currentSort as AnyObject?
         

@@ -11,16 +11,42 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
     var currentLabelIndex = 0
     var customView: UIView!
     var timer: Timer!
+    
+    var currentSearch = "Thai"
+    var limit = 10
+    var offSet = 0
+    
+    var isMoreDataLoading = false
+    var loadingMoreView:InfiniteScrollActivityView?
 
     var businesses: [Business]!
+    
+    var filters = [String: AnyObject]()
+
     
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        filters["categories"] = nil
+        filters["sort"] = YelpSortMode.bestMatched.rawValue as AnyObject
+        filters["deals"] = 0 as AnyObject
+        filters["radiusFilter"] = 4000 as AnyObject
+        filters["offset"] = 0 as AnyObject
+        filters["term"] = currentSearch as AnyObject
+        
+        // Set up Infinite Scroll loading indicator
+        let frame = CGRect(x: 0, y: tableView.contentSize.height, width: tableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
+        loadingMoreView = InfiniteScrollActivityView(frame: frame)
+        loadingMoreView!.isHidden = true
+        tableView.addSubview(loadingMoreView!)
+        
+        var insets = tableView.contentInset
+        insets.bottom += InfiniteScrollActivityView.defaultHeight
+        tableView.contentInset = insets
+        
         //set up custom pull to refresh animation
-        refreshControl = UIRefreshControl()
         refreshControl = UIRefreshControl()
         refreshControl.backgroundColor = UIColor.clear
         refreshControl.tintColor = UIColor.clear
@@ -38,7 +64,7 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
         searchBar.sizeToFit()
         navigationItem.titleView = searchBar
         
-        Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
+        Business.searchWithTerm(filter: filters, completion: { (businesses: [Business]?, error: Error?) -> Void in
             
             self.businesses = businesses
             self.tableView.reloadData()
@@ -47,17 +73,16 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
         
         func viewWillAppear(_ animated: Bool) {
             super.viewWillAppear(animated)
-            if let button = self.navigationItem.rightBarButtonItem?.customView {
-                button.frame = CGRect(x:0, y:0, width:80, height:34)
-            }
+            
+            offSet = 10
         }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if refreshControl.isRefreshing {
             if !isAnimating {
-                doSomething()
-                animateRefreshStep1()
+                refreshData()
+                animateRefreshStepOne()
             }
         }
     }
@@ -76,12 +101,12 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
         refreshControl.addSubview(customView)
     }
     
-    func animateRefreshStep1() {
+    func animateRefreshStepOne() {
         isAnimating = true
         
         UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
             self.labelsArray[self.currentLabelIndex].transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_4))
-            self.labelsArray[self.currentLabelIndex].textColor = self.getNextColor()
+            self.labelsArray[self.currentLabelIndex].textColor = ((self.currentLabelIndex % 2 == 0) ? UIColor.red : UIColor.white)
             
         }, completion: { (finished) -> Void in
             
@@ -93,40 +118,33 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
                 self.currentLabelIndex += 1
                 
                 if self.currentLabelIndex < self.labelsArray.count {
-                    self.animateRefreshStep1()
+                    self.animateRefreshStepOne()
                 }
                 else {
-                    self.animateRefreshStep2()
+                    self.animateRefreshStepTwo()
                 }
             })
         })
     }
     
     
-    func animateRefreshStep2() {
+    func animateRefreshStepTwo() {
         UIView.animate(withDuration: 0.35, delay: 0.0, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
-            self.labelsArray[0].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
-            self.labelsArray[1].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
-            self.labelsArray[2].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
-            self.labelsArray[3].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
-            self.labelsArray[4].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
-            self.labelsArray[5].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
-            self.labelsArray[6].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            for i in 0..<7 {
+                
+                self.labelsArray[i].transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            }
             
         }, completion: { (finished) -> Void in
             UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
-                self.labelsArray[0].transform = CGAffineTransform.identity
-                self.labelsArray[1].transform = CGAffineTransform.identity
-                self.labelsArray[2].transform = CGAffineTransform.identity
-                self.labelsArray[3].transform = CGAffineTransform.identity
-                self.labelsArray[4].transform = CGAffineTransform.identity
-                self.labelsArray[5].transform = CGAffineTransform.identity
-                self.labelsArray[6].transform = CGAffineTransform.identity
+                for i in 0..<7 {
+                    self.labelsArray[i].transform = CGAffineTransform.identity
+                }
                 
             }, completion: { (finished) -> Void in
                 if self.refreshControl.isRefreshing {
                     self.currentLabelIndex = 0
-                    self.animateRefreshStep1()
+                    self.animateRefreshStepOne()
                 }
                 else {
                     self.isAnimating = false
@@ -139,30 +157,17 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
             })
         })
     }
-
-    func getNextColor() -> UIColor {
-        var colorsArray: Array<UIColor> = [UIColor.magenta, UIColor.brown, UIColor.yellow, UIColor.red, UIColor.green, UIColor.blue, UIColor.orange]
-        
-        if currentColorIndex == colorsArray.count {
-            currentColorIndex = 0
-        }
-        
-        let returnColor = colorsArray[currentColorIndex]
-        currentColorIndex += 1
-        
-        return returnColor
-    }
     
-    func doSomething() {
+    func refreshData() {
         timer = Timer.scheduledTimer(timeInterval: 8.0, target: self, selector: #selector(BusinessesViewController.endOfWork), userInfo: nil, repeats: true)
         
-        //In an effort to fully display the custom pulldown animation I added a timer. To actually refesh data uncomment code below and comment out timer + endOfWork function
-//        Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
-//            
-//            self.businesses = businesses
-//            self.tableView.reloadData()
-//            self.endOfWork()
-//        })
+/*        In an effort to fully display the custom pulldown animation I added a timer. To actually refesh data uncomment code below and comment out timer + endOfWork function
+        Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
+            
+            self.businesses = businesses
+            self.tableView.reloadData()
+            self.endOfWork()
+        })*/
     }
     
     func endOfWork() {
@@ -196,12 +201,7 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
     
     func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject]) {
 
-        let categories = filters["categories"] as? [String]
-        Business.searchWithTerm(term: "Restaurants",
-                                sort: filters["sort"] as! YelpSortMode?,
-                                categories: categories,
-                                deals: filters["deals"] as? Bool,
-                                radiusFilter: filters["radiusFilter"] as? Int) {
+        Business.searchWithTerm(filter: filters) {
                                     (businesses: [Business]?, error: Error?) -> Void in
                                     self.businesses = businesses
                                     self.tableView.reloadData()
@@ -234,9 +234,13 @@ extension BusinessesViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        //searchSettings.searchString = searchBar.text
+        offSet = 0
+        
+        filters["term"] = searchBar.text! as AnyObject?
+        filters["offset"] = offSet as AnyObject
+        
         searchBar.resignFirstResponder()
-        Business.searchWithTerm(term: searchBar.text!, completion: { (businesses: [Business]?, error: Error?) -> Void in
+        Business.searchWithTerm(filter: filters, completion: { (businesses: [Business]?, error: Error?) -> Void in
             if businesses != nil {
                 self.businesses = businesses
                 self.tableView.reloadData()
@@ -262,6 +266,41 @@ extension BusinessesViewController: UITableViewDataSource, UITableViewDelegate {
             return businesses.count
         } else {
             return 0
+        }
+    }
+}
+
+extension BusinessesViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (!isMoreDataLoading) {
+            // Calculate the position of one screen length before the bottom of the results
+            let scrollViewContentHeight = tableView.contentSize.height
+            let scrollOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
+            
+            if(scrollView.contentOffset.y > scrollOffsetThreshold && tableView.isDragging) {
+                isMoreDataLoading = true
+                
+                // Update position of loadingMoreView, and start loading indicator
+                let frame = CGRect(x: 0, y: tableView.contentSize.height, width: tableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
+                loadingMoreView?.frame = frame
+                loadingMoreView!.startAnimating()
+                
+                loadMoreData()
+            }
+        }
+    }
+    
+    func loadMoreData() {
+        offSet += 10
+        filters["offset"] = offSet as AnyObject
+
+        Business.searchWithTerm(filter: self.filters) {
+                                    (businesses: [Business]?, error: Error?) -> Void in
+                                    self.isMoreDataLoading = false
+                                    self.loadingMoreView!.stopAnimating()
+                                    self.businesses! += businesses!
+                                    self.tableView.reloadData()
         }
     }
 }

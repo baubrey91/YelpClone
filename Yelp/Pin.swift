@@ -1,10 +1,4 @@
-//
-//  Pin.swift
-//  Yelp
-//
-//  Created by Brandon on 4/6/17.
-//  Copyright © 2017 Brandon Aubrey. All rights reserved.
-//
+
 
 import MapKit
 
