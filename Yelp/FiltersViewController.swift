@@ -77,12 +77,14 @@ class FiltersViewController: UIViewController {
             }
         }
         if selectedCategories.count > 0 {
-            filters["categories"] = selectedCategories as AnyObject?
+            filters["category_filter"] = selectedCategories as AnyObject?
         }
         
-        filters["radiusFilter"] = currentDistanceValue as AnyObject?
-        filters["deals"] = dealBool as AnyObject?
-        filters["sort"] = currentSort as AnyObject?
+        if currentDistanceValue > 0 {
+            filters["radius_filter"] = currentDistanceValue as AnyObject?
+        }
+        filters["deals_filter"] = dealBool as AnyObject?
+        filters["sort"] = currentSort.rawValue as AnyObject?
         
         delegate?.filtersViewController?(filtersViewController: self, didUpdateFilters: filters)
     }

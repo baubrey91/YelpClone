@@ -1,10 +1,4 @@
-//
-//  YelpFilters.swift
-//  Yelp
-//
-//  Created by Brandon on 4/4/17.
-//  Copyright © 2017 Timothy Lee. All rights reserved.
-//
+
 
 import Foundation
 

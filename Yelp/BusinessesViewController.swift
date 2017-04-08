@@ -29,10 +29,10 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        filters["categories"] = nil
+        filters["category_filter"] = nil
         filters["sort"] = YelpSortMode.bestMatched.rawValue as AnyObject
-        filters["deals"] = 0 as AnyObject
-        filters["radiusFilter"] = 4000 as AnyObject
+        filters["deals_filter"] = 0 as AnyObject
+        filters["radius_filter"] = 4000 as AnyObject
         filters["offset"] = 0 as AnyObject
         filters["term"] = currentSearch as AnyObject
         
@@ -64,7 +64,7 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
         searchBar.sizeToFit()
         navigationItem.titleView = searchBar
         
-        Business.searchWithTerm(filter: filters, completion: { (businesses: [Business]?, error: Error?) -> Void in
+        Business.searchWithTerm(filter: filters,term: currentSearch, completion: { (businesses: [Business]?, error: Error?) -> Void in
             
             self.businesses = businesses
             self.tableView.reloadData()
@@ -201,7 +201,11 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
     
     func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject]) {
 
-        Business.searchWithTerm(filter: filters) {
+        print(filters)
+        //filters?["term"] = "Thai"
+        
+        Business.searchWithTerm(filter: filters,
+                                term: currentSearch) {
                                     (businesses: [Business]?, error: Error?) -> Void in
                                     self.businesses = businesses
                                     self.tableView.reloadData()
@@ -235,12 +239,12 @@ extension BusinessesViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         offSet = 0
-        
+        currentSearch = searchBar.text!
         filters["term"] = searchBar.text! as AnyObject?
         filters["offset"] = offSet as AnyObject
         
         searchBar.resignFirstResponder()
-        Business.searchWithTerm(filter: filters, completion: { (businesses: [Business]?, error: Error?) -> Void in
+        Business.searchWithTerm(filter: filters, term: currentSearch, completion: { (businesses: [Business]?, error: Error?) -> Void in
             if businesses != nil {
                 self.businesses = businesses
                 self.tableView.reloadData()
@@ -295,7 +299,8 @@ extension BusinessesViewController: UIScrollViewDelegate {
         offSet += 10
         filters["offset"] = offSet as AnyObject
 
-        Business.searchWithTerm(filter: self.filters) {
+        Business.searchWithTerm(filter: self.filters,
+                                term: currentSearch) {
                                     (businesses: [Business]?, error: Error?) -> Void in
                                     self.isMoreDataLoading = false
                                     self.loadingMoreView!.stopAnimating()
