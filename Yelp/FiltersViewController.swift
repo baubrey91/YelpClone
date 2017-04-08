@@ -10,15 +10,13 @@ class FiltersViewController: UIViewController {
 
     let sectionTitlesArray = ["", "Distance", "Sort By", "Category"]
     let featuredArray = ["Offering a Deal"]
-//    let distanceArray = ["Auto", "0.3 Miles" , "1 Miles" , "5 Miles", "20 Miles"]
     var distanceArray = [[String:String]]()
 
     let sortByArray = ["Best Match" , "Distance", "Highest Rating"]
     let sortByValue: [YelpSortMode] = [.bestMatched, .distance, .highestRated]
     
-    //var currentSort = "Best Match"
     var currentDistance = "Auto"
-    var currentDistanceValue = -1
+    var currentDistanceValue: Int?
     var currentSort : YelpSortMode = .bestMatched
 
     
@@ -36,7 +34,6 @@ class FiltersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         categoriesArray = YelpFilters.yelpCategories()
         distanceArray = YelpFilters.yelpDistance()
         /*let categoryNames = categories.map { $0["name"]! }
@@ -46,7 +43,6 @@ class FiltersViewController: UIViewController {
                                 ("Categories", categoryNames)]*/
         
         tableView.reloadData()
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -80,7 +76,7 @@ class FiltersViewController: UIViewController {
             filters["category_filter"] = selectedCategories as AnyObject?
         }
         
-        if currentDistanceValue > 0 {
+        if currentDistanceValue != nil {
             filters["radius_filter"] = currentDistanceValue as AnyObject?
         }
         filters["deals_filter"] = dealBool as AnyObject?
