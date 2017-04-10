@@ -13,7 +13,7 @@ class YelpFilters {
                 ["name" : "Armenian", "code": "armenian"],
                 ["name" : "Asian Fusion", "code": "asianfusion"],
                 ["name" : "Asturian", "code": "asturian"],
-                /*["name" : "Australian", "code": "australian"],
+                ["name" : "Australian", "code": "australian"],
                 ["name" : "Austrian", "code": "austrian"],
                 ["name" : "Baguettes", "code": "baguettes"],
                 ["name" : "Bangladeshi", "code": "bangladeshi"],
@@ -143,7 +143,7 @@ class YelpFilters {
                 ["name" : "Seafood", "code": "seafood"],
                 ["name" : "Serbo Croatian", "code": "serbocroatian"],
                 ["name" : "Signature Cuisine", "code": "signature_cuisine"],
-                ["name" : "Singaporean", "code": "singaporean"],*/
+                ["name" : "Singaporean", "code": "singaporean"],
                 ["name" : "Slovakian", "code": "slovakian"],
                 ["name" : "Soul Food", "code": "soulfood"],
                 ["name" : "Soup", "code": "soup"],
