@@ -31,7 +31,7 @@ Personal:
  * [x] Tap on review in business details for custom animation flip over to details.
  * [x] StackView implemented in details view.
  * [x] If the customer does not have an image the YelpLogo is displayed.
- * [x] NSUserDefaults saves value for sort and .
+ * [x] NSUserDefaults saves value for sort and distance.
 
 How to use:
 
@@ -39,10 +39,11 @@ Search using the seach bar in the top and change the settings by using the filte
  
 Notes/Problems:
 
+problems with SevenSwitch framework.
 
 Walkthrough of all user stories:
 
-[![yelp.gif](https://s26.postimg.org/f1tgvxfg9/yelp.gif)](https://postimg.org/image/qqxgjw6et/)
+[![yelpGif.gif](https://s26.postimg.org/cplz58wah/yelp_Gif.gif)](https://postimg.org/image/jstukv1px/)
 
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
