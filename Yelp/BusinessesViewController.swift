@@ -74,6 +74,7 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
         func viewWillAppear(_ animated: Bool) {
             super.viewWillAppear(animated)
             
+            self.tableView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: true)
             offSet = 10
         }
     }
@@ -238,6 +239,7 @@ extension BusinessesViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.tableView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: true)
         offSet = 0
         currentSearch = searchBar.text!
         filters["term"] = searchBar.text! as AnyObject?

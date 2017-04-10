@@ -12,6 +12,8 @@ enum FilterName: Int {
 
 class FiltersViewController: UIViewController {
     
+    let prefs = UserDefaults.standard
+    
     var currentDistance = ("Auto", -1)
     var currentSort = ("Best Match", 0)
     
@@ -32,6 +34,19 @@ class FiltersViewController: UIViewController {
         
         tableView.reloadData()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        //switchStates[IndexPath(row: 0, section: 0)] = prefs.bool(forKey: "deal") ?? false
+        
+        currentDistance.0 = prefs.string(forKey: "radius") ?? "Auto"
+        currentDistance.1 = prefs.integer(forKey: "radiusValue") ?? -1
+        
+        currentSort.0 = prefs.string(forKey: "sort") ?? "Best Match"
+        currentSort.1 = prefs.integer(forKey: "sortValue") ?? 0
+        
+        tableView.reloadData()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -45,18 +60,21 @@ class FiltersViewController: UIViewController {
     @IBAction func Search(_ sender: Any) {
 
         dismiss(animated: true, completion: nil)
-
+        
         var filters = [String: AnyObject]()
         var selectedCategories = [String]()
         var dealBool:Bool?
         
         for (indexPath,isSelected) in switchStates {
+            
             if isSelected {
                 if indexPath.section == 0 {
+                    
                     dealBool = true
+                    //prefs.set(dealBool, forKey: "deal")
                 }
                 if indexPath.section == 3 {
-                selectedCategories.append(filtersArray[indexPath.section].values[indexPath.row]["code"]!)
+                    selectedCategories.append(filtersArray[indexPath.section].values[indexPath.row]["code"]!)
                 }
             }
         }
@@ -66,11 +84,17 @@ class FiltersViewController: UIViewController {
         
         if currentDistance.1 > 0 {
             filters["radius_filter"] = currentDistance.1 as AnyObject
+            prefs.set(currentDistance.1, forKey: "radiusValue")
+            prefs.set(currentDistance.0, forKey: "radius")
+
+
         }
         
         filters["deals_filter"] = dealBool as AnyObject?
         
         filters["sort"] = currentSort.1 as AnyObject
+        prefs.set(currentSort.0, forKey: "sort")
+        prefs.set(currentSort.1, forKey: "sortValue")
         
         delegate?.filtersViewController?(filtersViewController: self, didUpdateFilters: filters)
     }
@@ -121,7 +145,7 @@ extension FiltersViewController: UITableViewDelegate, UITableViewDataSource, Swi
             let cell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell") as! SwitchCell
             
             cell.delegate = self
-                        
+            
             if (!currentFilter.isExpanded && indexPath.row == 3) {
                 
                 cell.switchLabel.text = "More"
