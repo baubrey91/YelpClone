@@ -32,6 +32,7 @@ Personal:
  * [x] StackView implemented in details view.
  * [x] If the customer does not have an image the YelpLogo is displayed.
  * [x] NSUserDefaults saves value for sort and distance.
+ * [x] After searching or filtering screen adjusts to top of scrollview.
 
 How to use:
 
