@@ -1,6 +1,7 @@
 import UIKit
+import CoreLocation
 
-class BusinessesViewController: UIViewController, FiltersViewControllerDelegate {
+class BusinessesViewController: UIViewController, FiltersViewControllerDelegate, CLLocationManagerDelegate {
     
     var searchBar: UISearchBar!
     
@@ -22,12 +23,28 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
     var businesses: [Business]!
     
     var filters = [String: AnyObject]()
+    
+    var locationManager = CLLocationManager()
+    
+    var myLocation = "37.785771,-122.406165"
 
     
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        locationManager.delegate = self
+        
+        // For use in foreground
+        self.locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
+
         
         filters["category_filter"] = nil
         filters["sort"] = YelpSortMode.bestMatched.rawValue as AnyObject
@@ -77,6 +94,12 @@ class BusinessesViewController: UIViewController, FiltersViewControllerDelegate 
             self.tableView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: true)
             offSet = 10
         }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let locValue:CLLocationCoordinate2D = manager.location!.coordinate
+        myLocation = "\(locValue.latitude),\(locValue.latitude)"
+        
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
