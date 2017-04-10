@@ -31,6 +31,7 @@ Personal:
  * [x] Tap on review in business details for custom animation flip over to details.
  * [x] StackView implemented in details view.
  * [x] If the customer does not have an image the YelpLogo is displayed.
+ * [x] NSUserDefaults saves value for sort and .
 
 How to use:
 
